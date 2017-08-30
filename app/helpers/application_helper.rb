@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def pager(page, count, pages)
+    n = page == pages ? page : page + 1
+    p = page == 0 ? 0 : page - 1
+    a = link_to '🍏', "/logs?page=#{p}"
+    c = link_to '🍎', "/logs?page=#{n}"
+    b = " #{page}/#{pages} "
+    (a + b + c).html_safe
+  end
+
   def syllabus(klass)
     link_to "Show (#{klass.sections.size})", sections_klass_path(klass)
   end

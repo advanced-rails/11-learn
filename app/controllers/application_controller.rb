@@ -5,9 +5,10 @@ class ApplicationController < ActionController::Base
   private
 
   def log_auth
-    data = {controller: controller_name, action: action_name, params: request.params.to_h, time: Time.now}
+    data = {uid: nil, email: nil, role: nil, controller: controller_name, action: action_name, params: request.params.to_s, datetime: Time.now.to_s}
     data = data.merge({uid: @user.id, email: @user.email, role: @user.role}) if @user
     ap data
+    LogAuthJob.perform_later(data)
   end
 
   def get_user
